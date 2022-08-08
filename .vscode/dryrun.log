@@ -1,0 +1,15 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/solpang/philosophers'
+cc -Werror -Wall -Wextra   -c -o main.o main.c
+ 
+cc -Werror -Wall -Wextra   -c -o ft_atoi.o ft_atoi.c
+cc -Werror -Wall -Wextra   -c -o get_time.o get_time.c
+cc -Werror -Wall -Wextra   -c -o init_func.o init_func.c
+cc -Werror -Wall -Wextra   -c -o monitoring.o monitoring.c
+cc -Werror -Wall -Wextra   -c -o parsing.o parsing.c
+cc -Werror -Wall -Wextra   -c -o philo_act.o philo_act.c
+cc -Werror -Wall -Wextra   -c -o philo_act2.o philo_act2.c
+cc -Werror -Wall -Wextra   -c -o print.o print.c
+cc -Werror -Wall -Wextra -pthread -fsanitize=thread -o philo main.o ft_atoi.o get_time.o init_func.o monitoring.o parsing.o philo_act.o philo_act2.o print.o
+make: Leaving directory `/Users/solpang/philosophers'
+ 

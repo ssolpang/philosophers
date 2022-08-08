@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/08 15:16:42 by jkwak             #+#    #+#             */
+/*   Updated: 2022/08/08 15:16:44 by jkwak            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 #include <stdio.h>
 
@@ -17,11 +29,14 @@ static int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-void    print_terminal(t_param *param, int tid, char *str)
+void	print_terminal(t_param *param, int tid, char *str)
 {
-    // pthread_mutex_lock(&param->print_lock);
-    printf("[%lld] %d %s\n", get_time() - param->start_time, tid, str);
-    if (!ft_strncmp(str, "died", 5))
-        return ;
-    pthread_mutex_unlock(&param->print_lock);
+	if (param->rule->is_dining == TRUE)
+	{
+		pthread_mutex_lock(&param->print_lock);
+		printf("[%lld] %d %s\n", get_time(param) - param->start_time, tid, str);
+		if (!ft_strncmp(str, "died", 5))
+			return ;
+		pthread_mutex_unlock(&param->print_lock);
+	}
 }
