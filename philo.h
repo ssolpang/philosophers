@@ -6,7 +6,7 @@
 /*   By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 15:18:28 by jkwak             #+#    #+#             */
-/*   Updated: 2022/08/08 15:18:29 by jkwak            ###   ########.fr       */
+/*   Updated: 2022/08/22 19:41:25 by jkwak            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ typedef struct s_philo
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 }	t_philo;
+
+/* destroy.c */
+void		destroy_mutex_4_forks(int i, t_param *param);
+void		destroy_mutex_4_others(int i, t_param *param);
 
 /* ft_atoi.c */
 int			ft_is_digit(int c);
