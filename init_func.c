@@ -6,7 +6,7 @@
 /*   By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 15:17:43 by jkwak             #+#    #+#             */
-/*   Updated: 2022/08/22 19:44:57 by jkwak            ###   ########.fr       */
+/*   Updated: 2022/08/23 15:56:12 by jkwak            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	init_philo(t_param *param)
 	if (!param->philo)
 	{
 		destroy_mutex_4_others(3, param);
-		destroy_mutex_4_forks(i, param);
+		destroy_mutex_4_forks(param->rule->num_of_philo, param);
 		free(param->tids);
 		return (FAIL);
 	}
@@ -95,7 +95,7 @@ int	init_param(t_param *param, t_rule *rule)
 	if (!param->tids)
 	{
 		destroy_mutex_4_others(3, param);
-		destroy_mutex_4_forks(i, param);
+		destroy_mutex_4_forks(rule->num_of_philo, param);
 		return (FAIL);
 	}
 	if (!init_philo(param))

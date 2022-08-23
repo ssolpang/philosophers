@@ -6,7 +6,7 @@
 /*   By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 19:38:25 by jkwak             #+#    #+#             */
-/*   Updated: 2022/08/22 19:39:41 by jkwak            ###   ########.fr       */
+/*   Updated: 2022/08/23 15:53:01 by jkwak            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	destroy_mutex_4_forks(int i, t_param *param)
 	int	start;
 
 	start = 0;
-	while (start <= i)
+	while (start < i)
 	{
 		pthread_mutex_destroy(&param->forks[start]);
 		++start;
