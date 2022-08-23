@@ -6,7 +6,7 @@
 /*   By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 15:16:26 by jkwak             #+#    #+#             */
-/*   Updated: 2022/08/23 16:43:11 by jkwak            ###   ########.fr       */
+/*   Updated: 2022/08/23 21:51:04 by jkwak            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,21 @@ static void	*philo_act(void *data)
 	tid = philo->tid_index;
 	if (tid % 2 == 1)
 	{
+		pthread_mutex_lock(&philo->param->starving_time_lock);
 		philo->start_starving_time = get_time(philo->param);
+		pthread_mutex_unlock(&philo->param->starving_time_lock);
 		usleep(philo->param->rule->time_to_eat * 800);
 	}
+	pthread_mutex_lock(&philo->param->is_dining_lock);
 	while (philo->param->rule->is_dining == TRUE)
 	{
+		pthread_mutex_unlock(&philo->param->is_dining_lock);
 		dining_philo_eat(philo, tid);
 		philo_sleep(philo->param->rule, philo, philo->tid_index);
 		philo_think(philo->param->rule, philo, philo->tid_index);
+		pthread_mutex_lock(&philo->param->is_dining_lock);
 	}
+	pthread_mutex_unlock(&philo->param->is_dining_lock);
 	return (NULL);
 }
 

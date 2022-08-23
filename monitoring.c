@@ -6,7 +6,7 @@
 /*   By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 15:18:06 by jkwak             #+#    #+#             */
-/*   Updated: 2022/08/08 15:18:09 by jkwak            ###   ########.fr       */
+/*   Updated: 2022/08/23 21:21:10 by jkwak            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,13 @@ static int	check_eat_count(t_param *param)
 	i = 0;
 	while (i < param->rule->num_of_philo)
 	{
-		if (param->philo[i].eat_count >= param->rule->count_of_must_eat)
+		pthread_mutex_lock(&param->eat_count_lock);
+		if (param->philo[i++].eat_count >= param->rule->count_of_must_eat)
+		{
+			pthread_mutex_unlock(&param->eat_count_lock);
 			++num_of_hogs;
-		++i;
+		}
+		pthread_mutex_unlock(&param->eat_count_lock);
 	}
 	if (num_of_hogs == param->rule->num_of_philo)
 	{
@@ -46,9 +50,11 @@ static int	check_death_of_philo(t_param *param)
 	i = 0;
 	while (i < param->rule->num_of_philo)
 	{
+		pthread_mutex_lock(&param->starving_time_lock);
 		if ((get_time(param) - param->philo[i].start_starving_time \
 			> param->rule->time_to_die))
 		{
+			pthread_mutex_unlock(&param->starving_time_lock);
 			pthread_mutex_lock(&param->is_dining_lock);
 			param->rule->is_dining = FALSE;
 			pthread_mutex_unlock(&param->is_dining_lock);
@@ -57,6 +63,7 @@ static int	check_death_of_philo(t_param *param)
 				- param->start_time, i + 1, "died");
 			return (KILL_PROCESS);
 		}
+		pthread_mutex_unlock(&param->starving_time_lock);
 		++i;
 	}
 	return (KEEP_PROCESS);
@@ -68,9 +75,14 @@ int	monitoring_philos(t_param *param)
 	{
 		if (check_death_of_philo(param) == KILL_PROCESS)
 			break ;
+		pthread_mutex_lock(&param->eat_count_lock);
 		if (param->rule->if_count_of_must_eat == TRUE && \
 			check_eat_count(param) == KILL_PROCESS)
+		{
+			pthread_mutex_unlock(&param->eat_count_lock);
 			break ;
+		}
+		pthread_mutex_unlock(&param->eat_count_lock);
 	}
 	return (KILL_PROCESS);
 }

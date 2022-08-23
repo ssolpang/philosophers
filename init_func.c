@@ -6,30 +6,35 @@
 /*   By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 15:17:43 by jkwak             #+#    #+#             */
-/*   Updated: 2022/08/23 15:56:12 by jkwak            ###   ########.fr       */
+/*   Updated: 2022/08/23 21:24:07 by jkwak            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <stdlib.h>
 
+static int	init_mutex_routine(pthread_mutex_t *lock, t_param *param, int i)
+{
+	if (pthread_mutex_init(lock, NULL))
+	{
+		destroy_mutex_4_others(i, param);
+		return (FAIL);
+	}
+	return (SUCCESS);
+}
+
 static int	init_each_mutex(t_param *param)
 {
-	if (pthread_mutex_init(&param->print_lock, NULL))
-	{
-		destroy_mutex_4_others(1, param);
+	if (!init_mutex_routine(&param->print_lock, param, 0))
 		return (FAIL);
-	}
-	if (pthread_mutex_init(&param->is_dining_lock, NULL))
-	{
-		destroy_mutex_4_others(2, param);
+	if (!init_mutex_routine(&param->is_dining_lock, param, 1))
 		return (FAIL);
-	}
-	if (pthread_mutex_init(&param->get_time_lock, NULL))
-	{
-		destroy_mutex_4_others(3, param);
+	if (!init_mutex_routine(&param->get_time_lock, param, 2))
 		return (FAIL);
-	}
+	if (!init_mutex_routine(&param->starving_time_lock, param, 3))
+		return (FAIL);
+	if (!init_mutex_routine(&param->eat_count_lock, param, 4))
+		return (FAIL);
 	return (SUCCESS);
 }
 
@@ -40,7 +45,7 @@ int	init_forks_mutex(t_param *param, t_rule *rule)
 	param->forks = malloc(sizeof(pthread_mutex_t) * rule->num_of_philo);
 	if (!param->forks)
 	{
-		destroy_mutex_4_others(3, param);
+		destroy_mutex_4_others(5, param);
 		return (FAIL);
 	}
 	i = 0;
@@ -48,7 +53,7 @@ int	init_forks_mutex(t_param *param, t_rule *rule)
 	{
 		if (pthread_mutex_init(&param->forks[i], NULL))
 		{
-			destroy_mutex_4_others(3, param);
+			destroy_mutex_4_others(5, param);
 			destroy_mutex_4_forks(i, param);
 			return (FAIL);
 		}
@@ -64,7 +69,7 @@ static int	init_philo(t_param *param)
 	param->philo = malloc(sizeof(t_philo) * param->rule->num_of_philo);
 	if (!param->philo)
 	{
-		destroy_mutex_4_others(3, param);
+		destroy_mutex_4_others(5, param);
 		destroy_mutex_4_forks(param->rule->num_of_philo, param);
 		free(param->tids);
 		return (FAIL);
@@ -83,7 +88,6 @@ static int	init_philo(t_param *param)
 	return (SUCCESS);
 }
 
-
 int	init_param(t_param *param, t_rule *rule)
 {
 	param->rule = rule;
@@ -94,7 +98,7 @@ int	init_param(t_param *param, t_rule *rule)
 	param->tids = malloc(sizeof(pthread_t) * rule->num_of_philo);
 	if (!param->tids)
 	{
-		destroy_mutex_4_others(3, param);
+		destroy_mutex_4_others(5, param);
 		destroy_mutex_4_forks(rule->num_of_philo, param);
 		return (FAIL);
 	}

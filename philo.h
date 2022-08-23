@@ -6,7 +6,7 @@
 /*   By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 15:18:28 by jkwak             #+#    #+#             */
-/*   Updated: 2022/08/22 19:41:25 by jkwak            ###   ########.fr       */
+/*   Updated: 2022/08/23 20:38:05 by jkwak            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef struct s_param
 	pthread_mutex_t	print_lock;
 	pthread_mutex_t	is_dining_lock;
 	pthread_mutex_t	get_time_lock;
+	pthread_mutex_t	starving_time_lock;
+	pthread_mutex_t	eat_count_lock;
 	pthread_t		*tids;
 	t_philo			*philo;
 }	t_param;
