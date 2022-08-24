@@ -6,7 +6,7 @@
 /*   By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 15:18:06 by jkwak             #+#    #+#             */
-/*   Updated: 2022/08/23 21:21:10 by jkwak            ###   ########.fr       */
+/*   Updated: 2022/08/24 17:28:37 by jkwak            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,10 @@ static int	check_eat_count(t_param *param)
 	while (i < param->rule->num_of_philo)
 	{
 		pthread_mutex_lock(&param->eat_count_lock);
-		if (param->philo[i++].eat_count >= param->rule->count_of_must_eat)
-		{
-			pthread_mutex_unlock(&param->eat_count_lock);
+		if (param->philo[i].eat_count >= param->rule->count_of_must_eat)
 			++num_of_hogs;
-		}
 		pthread_mutex_unlock(&param->eat_count_lock);
+		i++;
 	}
 	if (num_of_hogs == param->rule->num_of_philo)
 	{
@@ -75,14 +73,9 @@ int	monitoring_philos(t_param *param)
 	{
 		if (check_death_of_philo(param) == KILL_PROCESS)
 			break ;
-		pthread_mutex_lock(&param->eat_count_lock);
 		if (param->rule->if_count_of_must_eat == TRUE && \
 			check_eat_count(param) == KILL_PROCESS)
-		{
-			pthread_mutex_unlock(&param->eat_count_lock);
 			break ;
-		}
-		pthread_mutex_unlock(&param->eat_count_lock);
 	}
 	return (KILL_PROCESS);
 }

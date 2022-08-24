@@ -6,7 +6,7 @@
 /*   By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 15:16:26 by jkwak             #+#    #+#             */
-/*   Updated: 2022/08/24 16:15:19 by jkwak            ###   ########.fr       */
+/*   Updated: 2022/08/24 17:29:48 by jkwak            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ void	philo_run(t_rule *rule)
 		i = 0;
 		while (i < rule->num_of_philo)
 			pthread_join(param.tids[i++], NULL);
-			// pthread_detach(param.tids[i++]);
 	}
 	free_all(&param);
 }
