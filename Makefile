@@ -6,12 +6,12 @@
 #    By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/08 15:14:55 by jkwak             #+#    #+#              #
-#    Updated: 2022/08/23 20:28:21 by jkwak            ###   ########.fr        #
+#    Updated: 2022/08/24 15:50:34 by jkwak            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Werror -Wall -Wextra -g3 -pthread -fsanitize=thread
+CFLAGS = -Werror -Wall -Wextra -g3 -fsanitize=thread
 #DEBUG option = -g3 -pthread -fsanitize=thread
 NAME = philo
 

@@ -6,7 +6,7 @@
 /*   By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 15:18:41 by jkwak             #+#    #+#             */
-/*   Updated: 2022/08/23 21:49:10 by jkwak            ###   ########.fr       */
+/*   Updated: 2022/08/24 15:46:19 by jkwak            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	spending_time(t_param *param, long long time_to_spend)
 
 void	philo_eat(t_rule *rule, t_philo *philo, int tid)
 {
-	// pthread_mutex_unlock(&philo->param->is_dining_lock); //-------------
 	pthread_mutex_lock(&philo->param->is_dining_lock);
 	if (rule->is_dining == FALSE)
 	{
@@ -44,7 +43,6 @@ void	philo_eat(t_rule *rule, t_philo *philo, int tid)
 
 void	philo_sleep(t_rule *rule, t_philo *philo, int tid)
 {
-	// pthread_mutex_unlock(&philo->param->is_dining_lock); //-------------
 	pthread_mutex_lock(&philo->param->is_dining_lock);
 	if (rule->is_dining == FALSE)
 	{
@@ -58,7 +56,6 @@ void	philo_sleep(t_rule *rule, t_philo *philo, int tid)
 
 void	philo_think(t_rule *rule, t_philo *philo, int tid)
 {
-	// pthread_mutex_unlock(&philo->param->is_dining_lock); //-------------
 	pthread_mutex_lock(&philo->param->is_dining_lock);
 	if (rule->is_dining == FALSE)
 	{
